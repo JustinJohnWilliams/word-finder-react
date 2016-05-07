@@ -3,7 +3,10 @@ import { Component } from 'react';
 class WordFinderContainer extends Component {
   render() {
     return(
-      <h1>hello, world!</h1>
+        <input type="text"
+      class="col-md-12"
+      name="pattern"
+      placeholder="Enter pattern and press" />
     );
   }
 }
