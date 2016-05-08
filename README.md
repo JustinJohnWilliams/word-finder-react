@@ -71,13 +71,17 @@ If you want tests to execute every time you change a file:
 
     brew install fswatch
 
-In another window run
+In another window run:
 
     fswatch test/search_spec.js | xargs -n1 -I{} mocha --compilers js:babel-register`
 
+To do es6 front end compilation:
+
+    run webpack --watch
+
 Run the app:
 
-    node start.js
+    nodemon start.js
 
 Then navigate to `http://localhost:3000`
 

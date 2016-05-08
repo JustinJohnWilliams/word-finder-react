@@ -158,7 +158,7 @@
 	            name: 'pattern',
 	            onChange: this.onChange.bind(this),
 	            value: this.props.searchTerm,
-	            placeholder: 'enter pattern and press' })
+	            placeholder: 'enter pattern and press enter' })
 	        ),
 	        React.createElement('br', null),
 	        this.renderCount(),
@@ -201,7 +201,6 @@
 	    value: function setSearchTerm(term) {
 	      this.setState({ searchTerm: term });
 	      if (term.length > 3) this.searchByTerm(term);
-	      console.log(term);
 	    }
 	  }, {
 	    key: 'searchByTerm',

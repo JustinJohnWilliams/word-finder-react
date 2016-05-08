@@ -43,7 +43,7 @@ class WordFinderView extends Component {
             name="pattern"
             onChange={this.onChange.bind(this)}
             value={this.props.searchTerm}
-            placeholder="enter pattern and press" />
+            placeholder="enter pattern and press enter" />
         </form>
         <br />
         { this.renderCount() }
@@ -76,7 +76,6 @@ class WordFinderContainer extends Component {
   setSearchTerm(term) {
     this.setState({searchTerm: term});
     if(term.length > 3) this.searchByTerm(term);
-    console.log(term);
   }
 
   searchByTerm(term) {
