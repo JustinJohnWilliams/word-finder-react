@@ -77,7 +77,7 @@ In another window run:
 
 To do es6 front end compilation:
 
-    run webpack --watch
+    webpack --watch
 
 Run the app:
 
