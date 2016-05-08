@@ -106,23 +106,20 @@
 	  return SearchResultItem;
 	}(_react.Component);
 	
-	var WordFinderContainer = function (_Component2) {
-	  _inherits(WordFinderContainer, _Component2);
+	var WordFinderView = function (_Component2) {
+	  _inherits(WordFinderView, _Component2);
 	
-	  function WordFinderContainer() {
-	    _classCallCheck(this, WordFinderContainer);
+	  function WordFinderView() {
+	    _classCallCheck(this, WordFinderView);
 	
-	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(WordFinderContainer).call(this));
-	
-	    _this2.state = { words: [], searchTerm: "", firstLoad: true };
-	    return _this2;
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(WordFinderView).apply(this, arguments));
 	  }
 	
-	  _createClass(WordFinderContainer, [{
+	  _createClass(WordFinderView, [{
 	    key: 'renderCount',
 	    value: function renderCount() {
 	
-	      if (this.state.firstLoad) return null;
+	      if (this.props.firstLoad) return null;
 	      return React.createElement(
 	        'div',
 	        null,
@@ -130,7 +127,7 @@
 	          'p',
 	          null,
 	          'Words Found: ',
-	          this.state.words.length
+	          this.props.words.length
 	        ),
 	        React.createElement('hr', null)
 	      );
@@ -138,9 +135,14 @@
 	  }, {
 	    key: 'renderWords',
 	    value: function renderWords() {
-	      return (0, _lodash.map)(this.state.words, function (w) {
+	      return (0, _lodash.map)(this.props.words, function (w) {
 	        return React.createElement(SearchResultItem, { word: w, key: w });
 	      });
+	    }
+	  }, {
+	    key: 'onChange',
+	    value: function onChange(e) {
+	      this.props.setSearchTerm(e.target.value);
 	    }
 	  }, {
 	    key: 'render',
@@ -150,18 +152,44 @@
 	        null,
 	        React.createElement(
 	          'form',
-	          { onSubmit: this.onSubmit.bind(this) },
+	          { onSubmit: this.props.search },
 	          React.createElement('input', { type: 'text', autoComplete: 'off',
 	            className: 'col-md-12',
 	            name: 'pattern',
-	            onChange: this.setSearchTerm.bind(this),
-	            value: this.state.searchTerm,
+	            onChange: this.onChange.bind(this),
+	            value: this.props.searchTerm,
 	            placeholder: 'enter pattern and press' })
 	        ),
 	        React.createElement('br', null),
 	        this.renderCount(),
 	        this.renderWords()
 	      );
+	    }
+	  }]);
+	
+	  return WordFinderView;
+	}(_react.Component);
+	
+	var WordFinderContainer = function (_Component3) {
+	  _inherits(WordFinderContainer, _Component3);
+	
+	  function WordFinderContainer() {
+	    _classCallCheck(this, WordFinderContainer);
+	
+	    var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(WordFinderContainer).call(this));
+	
+	    _this3.state = { words: [], searchTerm: "", firstLoad: true };
+	    return _this3;
+	  }
+	
+	  _createClass(WordFinderContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(WordFinderView, { words: this.state.words,
+	        firstLoad: this.state.firstLoad,
+	        search: this.search.bind(this),
+	        setSearchTerm: this.setSearchTerm.bind(this),
+	        searchTerm: this.state.searchTerm });
 	    }
 	  }, {
 	    key: 'searchSuccessful',
@@ -170,19 +198,27 @@
 	    }
 	  }, {
 	    key: 'setSearchTerm',
-	    value: function setSearchTerm(e) {
-	      this.setState({ searchTerm: e.target.value });
-	      console.log(e.target.value);
+	    value: function setSearchTerm(term) {
+	      this.setState({ searchTerm: term });
+	      if (term.length > 3) this.searchByTerm(term);
+	      console.log(term);
 	    }
 	  }, {
-	    key: 'onSubmit',
-	    value: function onSubmit(e) {
-	      e.preventDefault();
+	    key: 'searchByTerm',
+	    value: function searchByTerm(term) {
 	      (0, _reqwest2.default)({
-	        url: '/dictionary?searchTerm=' + this.state.searchTerm,
+	        url: '/dictionary?searchTerm=' + term,
 	        method: 'get',
 	        success: this.searchSuccessful.bind(this)
 	      });
+	    }
+	  }, {
+	    key: 'search',
+	    value: function search(e) {
+	      if (e) {
+	        e.preventDefault();
+	      }
+	      this.searchByTerm(this.state.searchTerm);
 	    }
 	  }]);
 	

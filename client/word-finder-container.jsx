@@ -13,38 +13,37 @@ class SearchResultItem extends Component {
   }
 }
 
-class WordFinderContainer extends Component {
-  constructor() {
-    super();
-    this.state = { words: [], searchTerm: "", firstLoad: true };
-  }
-
+class WordFinderView extends Component {
   renderCount() {
 
-    if (this.state.firstLoad) return null;
+    if (this.props.firstLoad) return null;
     return(
       <div>
-        <p>Words Found: {this.state.words.length}</p>
+        <p>Words Found: {this.props.words.length}</p>
         <hr />
       </div>
     )
   }
 
   renderWords() {
-    return map(this.state.words, w => <SearchResultItem word={w} key={w} />);
+    return map(this.props.words, w => <SearchResultItem word={w} key={w} />);
+  }
+
+  onChange(e) {
+    this.props.setSearchTerm(e.target.value);
   }
 
   render() {
     return(
         <div>
-        <form onSubmit={this.onSubmit.bind(this)}>
+        <form onSubmit={this.props.search}>
 
-        <input type="text" autoComplete="off"
-      className="col-md-12"
-      name="pattern"
-      onChange={this.setSearchTerm.bind(this)}
-      value={this.state.searchTerm}
-      placeholder="enter pattern and press" />
+          <input type="text" autoComplete="off"
+            className="col-md-12"
+            name="pattern"
+            onChange={this.onChange.bind(this)}
+            value={this.props.searchTerm}
+            placeholder="enter pattern and press" />
         </form>
         <br />
         { this.renderCount() }
@@ -52,23 +51,47 @@ class WordFinderContainer extends Component {
       </div>
     );
   }
+}
+
+class WordFinderContainer extends Component {
+  constructor() {
+    super();
+    this.state = { words: [], searchTerm: "", firstLoad: true };
+  }
+
+  render() {
+    return (
+      <WordFinderView words={this.state.words}
+        firstLoad={this.state.firstLoad}
+        search={this.search.bind(this)}
+        setSearchTerm={this.setSearchTerm.bind(this)}
+        searchTerm={this.state.searchTerm} />
+    );
+  }
 
   searchSuccessful(d) {
     this.setState({words: d, firstLoad: false });
   }
 
-  setSearchTerm(e) {
-    this.setState({searchTerm: e.target.value});
-    console.log(e.target.value);
+  setSearchTerm(term) {
+    this.setState({searchTerm: term});
+    if(term.length > 3) this.searchByTerm(term);
+    console.log(term);
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  searchByTerm(term) {
     req({
-      url: `/dictionary?searchTerm=${this.state.searchTerm}`,
+      url: `/dictionary?searchTerm=${term}`,
       method: 'get',
       success: this.searchSuccessful.bind(this)
     });
+  }
+
+  search(e) {
+    if(e) {
+      e.preventDefault();
+    }
+    this.searchByTerm(this.state.searchTerm);
   }
 }
 
