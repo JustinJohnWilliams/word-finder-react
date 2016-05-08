@@ -18,6 +18,11 @@ app.get('/', function (req, res) {
   res.render('index', { pattern: null });
 });
 
+app.get('/dictionary', function(req, res) {
+  console.log(req.query.searchTerm);
+  res.json(words.search(req.query.searchTerm, dictionary).result);
+});
+
 app.post('/search', function (req, res) {
   var result = words.search(req.body.pattern, dictionary).result;
   res.render('result', { words: result, pattern: req.body.pattern });

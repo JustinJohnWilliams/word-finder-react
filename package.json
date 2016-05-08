@@ -23,6 +23,7 @@
     "lodash": "^4.11.1",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
+    "reqwest": "^2.0.5",
     "webpack": "^1.13.0"
   },
   "subdomain": "word-finder",
