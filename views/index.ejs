@@ -1,10 +1,83 @@
 <% include header %>
 
-<div id="content"></div>
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Word Finder</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+  <div class="container">
+    <div id="dashboard">
+      <div class="row">
+        <h3>Word Finder</h3>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
+        <p>I took every english word (over 200k words) and built a little app that will help you find words that contain specific characters.</p>
+        <hr/>
+      </div>
+      <div class="row">
+        <p>Enter a word, use _ and ? as needed (see instructions below)</p>
+        <div id="content"></div>
+        <script src="./public/scripts/bundle.js"></script>
+      </div>
+      <hr />
+    </div>
+    <div class="row">
+      <h3>The underscore</h3>
 
-<script src="./public/scripts/bundle.js"></script>
+      <p>Type a word into the text box with the following pattern:</p>
+      <pre>he__o</pre>
+
+      <p>And you'll get words such as:</p>
+      <pre>
+hello
+helio
+      </pre>
+    </div>
+
+    <div class="row">
+      <h3>The question mark</h3>
+
+      <p>This character is great for games like What's the Phrase (a knock off of Wheel of Fortune)</p>
+      <p>Type a word into the text box with the following pattern:</p>
+      <pre>st???</pre>
+
+      <p>and you'll get words such as:</p>
+      <pre>
+stack
+stade
+staff
+stage
+stagy
+      </pre>
+
+      <p>but you wont get words like</p>
+      <pre>start</pre>
+
+      <p>because the `t` would already be visible (in What's the Phrase), and you would have typed:</p>
+      <pre>st??t</pre>
+
+    </div>
+
+    <div class="row">
+      <h3>I know regex</h3>
+
+      <p>The behaviors above will be overriden if you prefix and suffix your phrase with <code>/</code>, example:</p>
+      <pre>/boo/</pre>
+
+      <p>Will give you all words that contain <code>boo</code>.</p>
+    </div>
+  </div>
+</body>
 
 <% include footer %>

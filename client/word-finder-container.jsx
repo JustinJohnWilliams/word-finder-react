@@ -16,7 +16,18 @@ class SearchResultItem extends Component {
 class WordFinderContainer extends Component {
   constructor() {
     super();
-    this.state = { words: [], searchTerm: "" };
+    this.state = { words: [], searchTerm: "", firstLoad: true };
+  }
+
+  renderCount() {
+
+    if (this.state.firstLoad) return null;
+    return(
+      <div>
+        <p>Words Found: {this.state.words.length}</p>
+        <hr />
+      </div>
+    )
   }
 
   renderWords() {
@@ -28,21 +39,22 @@ class WordFinderContainer extends Component {
         <div>
         <form onSubmit={this.onSubmit.bind(this)}>
 
-        <input type="text"
-      autoComplete="off"
+        <input type="text" autoComplete="off"
       className="col-md-12"
       name="pattern"
       onChange={this.setSearchTerm.bind(this)}
       value={this.state.searchTerm}
       placeholder="enter pattern and press" />
         </form>
+        <br />
+        { this.renderCount() }
         { this.renderWords() }
       </div>
     );
   }
 
   searchSuccessful(d) {
-    this.setState({words: d });
+    this.setState({words: d, firstLoad: false });
   }
 
   setSearchTerm(e) {
@@ -59,9 +71,6 @@ class WordFinderContainer extends Component {
     });
   }
 }
-
-
-
 
 function initApp() {
   ReactDOM.render(

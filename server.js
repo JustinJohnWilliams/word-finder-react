@@ -19,7 +19,6 @@ app.get('/', function (req, res) {
 });
 
 app.get('/dictionary', function(req, res) {
-  console.log(req.query.searchTerm);
   res.json(words.search(req.query.searchTerm, dictionary).result);
 });
 

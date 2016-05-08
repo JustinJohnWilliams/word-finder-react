@@ -114,11 +114,28 @@
 	
 	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(WordFinderContainer).call(this));
 	
-	    _this2.state = { words: [], searchTerm: "" };
+	    _this2.state = { words: [], searchTerm: "", firstLoad: true };
 	    return _this2;
 	  }
 	
 	  _createClass(WordFinderContainer, [{
+	    key: 'renderCount',
+	    value: function renderCount() {
+	
+	      if (this.state.firstLoad) return null;
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'p',
+	          null,
+	          'Words Found: ',
+	          this.state.words.length
+	        ),
+	        React.createElement('hr', null)
+	      );
+	    }
+	  }, {
 	    key: 'renderWords',
 	    value: function renderWords() {
 	      return (0, _lodash.map)(this.state.words, function (w) {
@@ -134,21 +151,22 @@
 	        React.createElement(
 	          'form',
 	          { onSubmit: this.onSubmit.bind(this) },
-	          React.createElement('input', { type: 'text',
-	            autoComplete: 'off',
+	          React.createElement('input', { type: 'text', autoComplete: 'off',
 	            className: 'col-md-12',
 	            name: 'pattern',
 	            onChange: this.setSearchTerm.bind(this),
 	            value: this.state.searchTerm,
 	            placeholder: 'enter pattern and press' })
 	        ),
+	        React.createElement('br', null),
+	        this.renderCount(),
 	        this.renderWords()
 	      );
 	    }
 	  }, {
 	    key: 'searchSuccessful',
 	    value: function searchSuccessful(d) {
-	      this.setState({ words: d });
+	      this.setState({ words: d, firstLoad: false });
 	    }
 	  }, {
 	    key: 'setSearchTerm',
